@@ -1,0 +1,33 @@
+name: statechange
+description: Log status of a service
+interval: 1
+count: -1
+tokens:
+- name: ts
+  format: template
+  type: timestamp
+  replacement: '%Y-%m-%d %H:%M:%S,%L'
+- name: state
+  format: template
+  type: script
+  script: >
+    if math.random() < 0.1 then
+        return "DOWN"
+    end
+    return "UP"
+lines:
+- index: cribl
+  sourcetype: nagios
+  source: nagios.log
+  host: nagios.cribl.io
+  _raw: '$ts$ auth1.cribl.io is $state$'
+- index: cribl
+  sourcetype: nagios
+  source: nagios.log
+  host: nagios.cribl.io
+  _raw: '$ts$ auth2.cribl.io is $state$'
+- index: cribl
+  sourcetype: nagios
+  source: nagios.log
+  host: nagios.cribl.io
+  _raw: '$ts$ auth3.cribl.io is $state$'

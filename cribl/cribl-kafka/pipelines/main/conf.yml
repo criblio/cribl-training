@@ -1,0 +1,11 @@
+functions:
+  - id: eval
+    filter: "true"
+    disabled: false
+    conf:
+      add:
+        - name: cribl
+          value: >-
+            'yes'
+      remove:
+        []

@@ -1,0 +1,16 @@
+{
+    "title": "Base64 Decode",
+    "type": "object",
+    "properties": {
+        "srcField": {
+            "title": "Source Field",
+            "description": "Field to find encoded base64 data",
+            "type": "string"
+        },
+        "dstField": {
+            "title": "Destination Field",
+            "description": "Field to write decoded base64 data",
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,25 @@
+name: authfailed
+description: Failed auth log with base64 encoded JWT-like tokens
+notes: >
+  Generates base64 encoded JSON, not a valid JWT, but JWT-like
+generator: authfailed
+interval: 1
+tokens:
+- name: host
+  format: template
+  type: choice
+  field: host
+  choice:
+  - auth1.cribl.io
+  - auth2.cribl.io
+  - auth3.cribl.io
+- name: ts
+  format: template
+  type: timestamp
+  replacement: '%Y-%m-%d %H:%M:%S,%L'
+lines:
+- index: cribl
+  sourcetype: authfailed
+  source: auth_failed.log
+  host: $host$
+  _raw: '$ts$ auth failed for jwt: $jwt$'

@@ -1,0 +1,49 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /var/log/*.log
+
+- type: log
+  enabled: true
+  fields:
+    index: cribl
+    sourcetype: access_combined
+  fields_under_root: true
+  paths:
+    - /var/log/httpd/access.log
+
+- type: log
+  enabled: true
+  fields:
+    index: cribl
+    sourcetype: business_event
+  fields_under_root: true
+  paths:
+    - /opt/be/log/transaction.log
+
+- type: log
+  enabled: true
+  fields:
+    index: cribl
+    sourcetype: authfailed
+  fields_under_root: true
+  paths:
+    - /opt/be/log/auth.log
+
+- type: docker
+  containers.ids: '*'
+
+setup.template.settings:
+  index.number_of_shards: 3
+
+path:
+  home: /usr/share/beat
+  config: /etc/filebeat
+  data: /var/lib/beat
+  logs: /var/log/beats
+
+output.kafka:
+  hosts: ["kafka:29092"]
+  topic: cribl
+  compression: gzip

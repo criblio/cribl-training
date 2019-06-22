@@ -1,0 +1,214 @@
+begin: -1h
+count: 3
+randomizeCount: 0.7
+earliest: -3s
+interval: 3
+latest: now
+lines:
+- _raw: $ts$,Event [Event=UpdateBillingProvQuote, timestamp=$epochts$,
+    properties={JMSCorrelationID=NA, JMSMessageID=ID:ESP-PD.$messageid1$:$messageid2$,
+    orderType=$orderType$, quotePriority=NORMAL, conversationId=ESB~$conversationid1$:$conversationid2$:$conversationid3$:$conversationid4$,
+    credits=NA, JMSReplyTo=pub.esb.genericasync.response, timeToLive=-1, serviceName=UpdateBillingProvisioning,
+    esn=$esn$, accountNumber=$accountNumber$, social=$socialNumber$, MethodName=InternalEvent, AdapterName=UpdateBillingProvQuote,
+    meid=NA, orderNumber=$orderNumber$, quoteNumber=$quoteNumber$, ReplyTo=NA, userName=$userName$, EventConversationID=NA,
+    mdn=$mdn$, accountType=$accountType$, marketCity="$city$", marketState=$state$,
+    marketZip=$zip$, billingCycle=$billingCycle$, autoBillPayment=T, phoneCode=$phoneCode$, phoneType=$phoneType$,
+    phoneName="$phoneName$", planCode=$planCode$, planType=$planType$, planPrice=$planPrice$, planName="$planName$",
+    planDescription="$planDescription$", cardNumber=$cardNumber$, networkProviderName=$networkProviderName$}]
+  host: 127.0.0.1
+  index: cribl
+  source: /opt/tibco/tra/apps/ESB/logs/business_event.log
+  sourcetype: business_event
+name: businessevent
+randomizeCount: 0.33
+# rater: outage
+tokens:
+- format: template
+  name: ts
+  replacement: '%Y-%m-%d %H:%M:%S,%L'
+  type: timestamp
+  group: 1
+- format: template
+  name: epochts
+  replacement: int
+  type: epochtimestamp
+  group: 1
+- format: template
+  length: 13
+  name: messageid1
+  replacement: hex
+  type: random
+- format: template
+  length: 8
+  name: messageid2
+  replacement: hex
+  type: random
+- weightedChoice:
+  - weight: 10
+    choice: ChangeESN
+  - weight: 8
+    choice: NewActivation
+  - weight: 5
+    choice: RatePlanFeatureChange
+  - weight: 2
+    choice: AddLOS
+  - weight: 2
+    choice: MDNChange
+  - weight: 2
+    choice: DisconnectLOS
+  - weight: 1
+    choice: DisconnectAccount
+  format: template
+  name: orderType
+  type: weightedChoice
+- format: template
+  length: 16
+  name: conversationid1
+  replacement: hex
+  type: random
+- format: template
+  length: 8
+  name: conversationid2
+  replacement: hex
+  type: random
+- format: template
+  length: 12
+  name: conversationid3
+  replacement: hex
+  type: random
+- format: template
+  length: 4
+  name: conversationid4
+  replacement: hex
+  type: random
+- format: template
+  group: 2
+  name: accountNumber
+  sample: customer_master_small.csv
+  srcField: accountNumber
+  type: fieldChoice
+- format: template
+  lower: 10000000
+  name: quoteNumber
+  replacement: int
+  type: random
+  upper: 99999999
+- format: template
+  type: script
+  name: orderNumber
+  init:
+    id: "9000000000000000"
+  script: >
+    state["id"] = state["id"] + 1
+    return state["id"]
+- format: template
+  name: userName
+  sample: userName.sample
+  type: choice
+- format: template
+  group: 2
+  name: mdn
+  sample: customer_master_small.csv
+  srcField: customerMDN
+  type: fieldChoice
+- format: template
+  group: 3
+  name: city
+  sample: markets.csv
+  srcField: city
+  type: fieldChoice
+- format: template
+  group: 3
+  name: state
+  sample: markets.csv
+  srcField: state
+  type: fieldChoice
+- format: template
+  group: 3
+  name: zip
+  sample: markets.csv
+  srcField: zip
+  type: fieldChoice
+- format: template
+  group: 4
+  name: planType
+  sample: plans.csv
+  srcField: type
+  type: fieldChoice
+- format: template
+  group: 4
+  name: accountType
+  sample: plans.csv
+  srcField: type
+  type: fieldChoice
+- format: template
+  group: 4
+  name: planPrice
+  sample: plans.csv
+  srcField: price
+  type: fieldChoice
+- format: template
+  group: 4
+  name: planName
+  sample: plans.csv
+  srcField: name
+  type: fieldChoice
+- format: template
+  group: 4
+  name: planCode
+  sample: plans.csv
+  srcField: code
+  type: fieldChoice
+- format: template
+  group: 4
+  name: planDescription
+  sample: plans.csv
+  srcField: description
+  type: fieldChoice
+- format: template
+  lower: 1
+  name: billingCycle
+  replacement: int
+  type: random
+  upper: 28
+- format: template
+  length: 14
+  name: esn
+  replacement: hex
+  type: random
+- format: template
+  group: 3
+  name: networkProviderName
+  sample: markets.csv
+  srcField: company
+  type: fieldChoice
+- format: template
+  group: 5
+  name: phoneCode
+  sample: phones.csv
+  srcField: code
+  type: weightedChoice
+- format: template
+  group: 5
+  name: phoneType
+  sample: phones.csv
+  srcField: type
+  type: weightedChoice
+- format: template
+  group: 5
+  name: phoneName
+  sample: phones.csv
+  srcField: name
+  type: weightedChoice
+- format: template
+  group: 6
+  name: socialNumber
+  sample: sensitive.csv
+  srcField: social
+  type: fieldChoice
+- format: template
+  group: 6
+  name: cardNumber
+  sample: sensitive.csv
+  srcField: card
+  type: fieldChoice

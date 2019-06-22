@@ -1,0 +1,51 @@
+asyncFuncTimeout: 1000
+description: Converts Access Combined Logs to Splunk Metrics
+functions:
+  - id: regex_extract
+    filter: "true"
+    disabled: null
+    conf:
+      regex: /^(?<clientIP>[\d.]+) (?<__ident>\S+) (?<httpBasicUser>\S+)
+        (?<__timestamp>\[[^\]]+\]) "(?<method>\w+)
+        (?<uri>[^?]+)\??(?<__queryString>[^ ]+)? HTTP (?<httpVersion>[0-9.]+)"
+        (?<status>\d{3}) (?<__bytes>\d+) "(?<referrer>[^"]+)"
+        "(?<userAgent>[^"]+)" (?<__timeTaken>\d+)$/gm
+      source: _raw
+    description: Extract Web Log Fields
+  - id: clone
+    filter: "true"
+    disabled: null
+    conf:
+      clones:
+        - source: http.timeTaken
+          metric_name: http.timeTaken
+    description: Clone for timeTaken
+  - id: eval
+    filter: >-
+      !metric_name
+    disabled: null
+    conf:
+      add:
+        - name: source
+          value: >-
+            'http.bytes'
+        - name: metric_name
+          value: >-
+            'http.bytes'
+        - name: _value
+          value: __bytes
+    description: Override source & metric_name for bytes events
+  - id: eval
+    filter: metric_name == 'http.timeTaken'
+    disabled: null
+    conf:
+      add:
+        - name: _value
+          value: __timeTaken
+    description: Set _value for timeTaken
+  - id: demo_querystring2fields
+    filter: "true"
+    disabled: null
+    conf:
+      {}
+    description: Parse Query String and add field for every k/v pair

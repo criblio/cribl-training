@@ -1,0 +1,32 @@
+asyncFuncTimeout: 1000
+output: minio
+description: KV to JSON to Minio
+functions:
+  - id: demo_parsekv
+    filter: source=='pretty_autokv'
+    disabled: false
+    conf:
+      dstField: newraw
+      ignoreFields:
+        - AdapterName
+        - Event
+        - EventConversationID
+        - JMSReplyTo
+        - credits
+        - meid
+        - properties
+        - social
+        - timeToLive
+        - MethodName
+        - ReplyTo
+    description: Convert key value pairs to JSON
+  - id: eval
+    filter: source=='pretty_autokv'
+    disabled: null
+    conf:
+      add:
+        - name: _raw
+          value: JSON.stringify(newraw)
+      remove:
+        - newraw
+    description: Replace raw with parsed key/value pairs

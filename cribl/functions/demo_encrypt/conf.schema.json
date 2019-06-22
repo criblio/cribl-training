@@ -1,0 +1,11 @@
+{
+  "title": "Encrypt config",
+  "type": "object",
+  "properties": {
+    "regex": {
+      "title": "Regex",
+      "description": "A regex with 3 capture groups: (prefix)(data-to-encrypt)(suffix)",
+      "type": "string"
+    }
+  }
+}

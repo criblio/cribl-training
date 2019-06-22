@@ -1,0 +1,31 @@
+code,type,name,_weight
+IP6P-64,iPhone,iPhone 6 Plus 64 Gig,20
+IP6-64,iPhone,iPhone 6 64 Gig,4
+IP5S-16,iPhone,iPhone 5S 16 Gig,2
+IP5C-16,iPhone,iPhone 5C 16 Gig,2
+IP5S-32,iPhone,iPhone 5S 32 Gig,2
+IP5S-64,iPhone,iPhone 5S 64 Gig,2
+IP4S-8,iPhone,iPhone 4S 8 Gig,1
+SN3,Android,Samsung Note 3,1
+SGS5,Android,Samsung GALAXY S5,15
+SGS3,Android,Samsung GALAXY S3,2
+SGS2,Android,Samsung GALAXY S3,2
+SGNOTE,Android,Samsung GALAXY Note,5
+SGS2,Android,Samsung GALAXY S2,1
+SGS4G,Android,Samsung GALAXY S 4G,1
+SS,Android,Samsung Stratosphere,1
+MDB,Android,Motorola Droid Bionic,1
+MDR,Android,Motorola Droid Razr,1
+HE4G,Android,HTC Evo 4G,2
+HDI,Android,HTC Droid Incredible,2
+LGR,Android,LG Revolution,1
+NL700,Windows Phone,Nokia Lumia 700,1
+NL1600,Windows Phone,Nokia Lumia 1600,1
+SFF,Windows Phone,Samsung Focus Flash,1
+BBT,Blackberry,Blackberry Curve 9360,2
+BBT,Blackberry,Blackberry Torch 91660,2
+BBT,Blackberry,Blackberry 10,2
+PL2,Feature,Pantech Link 2,5
+SS2,Feature,Samsung Solstice 2,3
+PB3,Feature,Pantech Breeze III,2
+MTUN,Feature,Motorola Tundra,1
