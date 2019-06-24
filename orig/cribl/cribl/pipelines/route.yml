@@ -1,0 +1,12 @@
+id: default
+routes:
+  - id: OsuFhD
+    name: Main Route
+    final: true
+    disabled: false
+    pipeline: main
+    description: Catchall for routing data through main pipeline
+    clones:
+      - {}
+    filter: "true"
+    output: default
