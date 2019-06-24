@@ -29,21 +29,6 @@ inputs:
     tcpPort: 5140
     maxBufferSize: 1000
     ipWhitelistRegex: /.*/
-  kafka:
-    type: kafka
-    disabled: false
-    brokers:
-      - kafka:29092
-    topics:
-      - cribl
-    groupId: Cribl
-    fromBeginning: true
-    kafkaSchemaRegistry:
-      disabled: true
-    sasl:
-      disabled: true
-    tls:
-      disabled: true
   splunk:
     type: splunk
     disabled: false
@@ -74,11 +59,3 @@ inputs:
     splunkHecAPI: /services/collector
     tls:
       disabled: true
-  metrics:
-    type: metrics
-    disabled: false
-    host: 0.0.0.0
-    udpPort: 8125
-    tcpPort: 8125
-    maxBufferSize: 1000
-    ipWhitelistRegex: /.*/
