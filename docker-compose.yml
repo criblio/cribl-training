@@ -19,6 +19,8 @@ services:
     - 5140:5140
     volumes:
     - ./cribl/cribl:/opt/cribl/local/cribl
+    cap_add:
+    - NET_ADMIN
   splunk:
     build:
       context: splunk
