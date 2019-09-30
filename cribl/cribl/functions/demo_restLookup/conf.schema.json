@@ -17,6 +17,12 @@
             "description": "Field name to add to event",
             "type": "string"
         },
+        "flatten": {
+            "title": "Flatten",
+            "description": "Flatten instead of creating an object",
+            "type": "boolean",
+            "default": false
+        },
         "headers": {
             "title": "HTTP Headers",
             "description": "HTTP Headers to send to lookup",
@@ -35,6 +41,12 @@
                     }
                 }
             }
+        },
+        "retryOnError": {
+            "title": "Retry On Error",
+            "description": "Retry (infinitely) and backpressure until success",
+            "type": "boolean",
+            "default": false
         }
     }
 }
