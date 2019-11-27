@@ -1,15 +1,12 @@
-FROM cribl/splunk:7.3.0
-ARG CRIBL_DISTRO=cribl-splunk-app-linux-x64
+FROM cribl/splunk:8.0.0
+ARG CRIBL_DISTRO=cribl-splunk-app
 RUN sh -c 'echo dash dash/sh boolean false | debconf-set-selections' && \
     sh -c 'DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash' && \
-    echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list && \
-    sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list && \
-    apt-get -o Acquire::Check-Valid-Until=false update && \
+    apt-get update && \
     apt-get install -y vim nano curl ca-certificates jq && \
     rm -rf /var/lib/apt/lists/*
-# RUN VERSION=$(curl -s https://cdn.cribl.io/versions.json | jq -r .version) && \
-#     curl -Lso /tmp/${CRIBL_DISTRO}.tgz https://cdn.cribl.io/dl/$(echo ${VERSION} | cut -d '-' -f 1)/${CRIBL_DISTRO}-${VERSION}.tgz && \
-RUN curl -Lso /tmp/${CRIBL_DISTRO}.tgz https://cdn.cribl.io/dl/latest/${CRIBL_DISTRO}.tgz && \
+RUN VERSION=$(curl -s https://cdn.cribl.io/versions.json | jq -r .version) && \
+    curl -Lso /tmp/${CRIBL_DISTRO}.tgz https://cdn.cribl.io/dl/$(echo ${VERSION} | cut -d '-' -f 1)/${CRIBL_DISTRO}-${VERSION}-linux-x64.tgz && \
     tar -zxvf /tmp/${CRIBL_DISTRO}.tgz -C /var/opt/splunk/etc/apps && \
     rm /tmp/${CRIBL_DISTRO}.tgz
 COPY hack/splunk/etc /var/opt/splunk/etc
@@ -23,8 +20,3 @@ ENV SPLUNK_BEFORE_START_CMD "version ${SPLUNK_START_ARGS}"
 ENV SPLUNK_BEFORE_START_CMD_1 "cmd /bin/bash /opt/splunk/etc/apps/cribl/bin/timeout.sh &"
 ENV SPLUNK_BEFORE_START_CMD_2 "cmd /bin/bash /opt/splunk/etc/apps/cribl/bin/intercom.sh"
 ENV SPLUNK_BEFORE_START_CMD_3 "cmd /bin/bash /opt/splunk/etc/apps/cribl/bin/config.sh"
-ADD http://cdn.cribl.io/dl/scope/latest/linux/libscope.so /usr/lib/libscope.so
-RUN chmod 755 /usr/lib/libscope.so
-ADD scope.yml /etc/scope/scope.yml
-RUN cp /var/opt/splunk/etc/splunk-launch.conf.default /var/opt/splunk/etc/splunk-launch.conf && \
-    echo -e "\nLD_PRELOAD=/usr/lib/libscope.so\n" >> /var/opt/splunk/etc/splunk-launch.conf

@@ -37,7 +37,7 @@ For Splunk UI go to: http://${DEMOUSER_IP}:8000/en-US/account/insecurelogin?logi
 
 Once logged in, you'll be dropped right into the Cribl demo app. 
 
-For Cribl UI go to: http://${DEMOUSER_IP}:9000/login?username=admin&password=cribldemo
+For Cribl UI go to: https://${DEMOUSER_IP}:9000/login?username=admin&password=cribldemo
 
 The sandbox environment will automatically shut down in about 1 hour.
 

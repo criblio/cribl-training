@@ -4,7 +4,7 @@ const email = undefined;
 /* pipelines */
 Array.from(document.getElementsByClassName('pipeline-name')).forEach(element => {
   const pipelineId = element.id;
-  element.href = `http://${window.location.hostname}:9000/pipelines/${pipelineId}`;
+  element.href = `https://${window.location.hostname}:9000/pipelines/${pipelineId}`;
 });
 
 /* eslint-disable */

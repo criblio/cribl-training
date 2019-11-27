@@ -1,47 +1,40 @@
 version: "3.5"
 services:
-  gogen:
-    build:
-      context: gogen
-    command: start-training
   cribl:
-    build:
-      context: cribl
+    image: cribl/cribl:2.0.2-RC1
     ports:
-    - 9000:9000
+      - 10200:10200
+      - 10088:10088
+      - 10080:10080
+      - 10001:10001
+      - 9999:9999
+      - 9000:9000
+      - 8125:8125
+      - 8125:8125/udp
+      - 5140:5140
     volumes:
-    - ./cribl/master/groups:/opt/cribl/groups
-    - ./cribl/master/local:/opt/cribl/local
-  cribl-w0:
+      - ./cribl/cribl:/opt/cribl/local/cribl
+      - ./cribl/data:/opt/cribl/data
+  gogen-accesscombined-forwarder:
     build:
-      context: cribl
-    ports:
-    - 9002:9000
-    - 10200:10200
-    - 10088:10088
-    - 10080:10080
-    - 10001:10001
-    - 9999:9999
-    - 5140:5140
+      context: universalforwarder
     environment:
-    - CRIBL_DIST_MASTER_URL=tcp://criblmaster@cribl:4200
-  cribl-w1:
-    build:
-      context: cribl
-    ports:
-    - 9003:9000
-    - 8125:8125
-    - 8125:8125/udp
-    environment:
-    - CRIBL_DIST_MASTER_URL=tcp://criblmaster@cribl:4200?tag=metrics
+      - SPLUNK_CMD=cmd mkdir -p /var/log/httpd
+      - SPLUNK_CMD_1=cmd gogen -v -cd /etc/gogen -o file --filename
+        /var/log/httpd/access_log -lj gen -s shoppingapache 2>/var/log/gogen.log
+        &
+      - SPLUNK_CMD_2=add monitor /var/log/httpd/access_log -auth admin:cribldemo
+        -sourcetype access_combined -index cribl
+      - SPLUNK_CMD_3=add forward-server ${CRIBL_SPLUNK} -auth admin:cribldemo
+        ${CRIBL_SPLUNK_ARGS}
   splunk:
     build:
       context: splunk
     ports:
-    - 8000:8000
-    - 8088:8088
-    - 8089:8089
-    - 9997:9997
+      - 8000:8000
+      - 8088:8088
+      - 8089:8089
+      - 9997:9997
     environment:
-    - DONT_TIMEOUT=1
-    - CRIBL_ROUTING_DEMO=1
+      - DONT_TIMEOUT=1
+      - CRIBL_ROUTING_DEMO=1
