@@ -1,9 +1,0 @@
-{
-  "comment": {
-    "ui:widget": "textarea",
-    "ui:options": {
-      "rows": 10
-    },
-    "ui:placeholder": "Enter comment"
-  }
-}

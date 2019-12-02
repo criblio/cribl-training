@@ -1,8 +1,0 @@
-{
-  "inField": {
-    "ui:options": { "inline": true, "width": "50%" }
-  },
-  "outField": {
-    "ui:options": { "inline": true, "width": "50%" }
-  }
-}
