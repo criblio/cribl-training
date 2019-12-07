@@ -1,7 +1,8 @@
 version: "3.5"
 services:
   cribl:
-    image: cribl/cribl:2.0.2-RC1
+    build:
+      context: cribl
     ports:
       - 10200:10200
       - 10088:10088
