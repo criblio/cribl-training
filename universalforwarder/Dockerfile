@@ -4,3 +4,4 @@ ADD https://api.gogen.io/linux/gogen /usr/bin/gogen
 RUN chmod 755 /usr/bin/gogen
 ENV SPLUNK_USER root
 ENV SPLUNK_START_ARGS "--accept-license --answer-yes --seed-passwd cribldemo"
+ADD client.pem /var/opt/splunk/etc/auth/client.pem
