@@ -1,3 +1,12 @@
+criblIndex:
+  type: expression
+  lib: custom
+  description: Checks if index is cribl
+  args:
+    - type: string
+      name: additional
+  value: "index=='cribl' && (additional === undefined ? true : additional)"
+  tags: routing
 accessCombined:
   type: expression
   lib: custom
