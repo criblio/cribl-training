@@ -24,8 +24,8 @@ inputs:
     host: 0.0.0.0
     tls:
       disabled: false
-      requestCert: true
-      rejectUnauthorized: true
+      requestCert: false
+      rejectUnauthorized: false
       commonNameRegex: /.*cribl\.io.*/
       certPath: $CRIBL_HOME/local/cribl/auth/certs/splunk_server.crt
       privKeyPath: $CRIBL_HOME/local/cribl/auth/certs/splunk_server.key
