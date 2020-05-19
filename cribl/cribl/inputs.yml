@@ -19,18 +19,3 @@ inputs:
       disabled: true
     ipWhitelistRegex: /.*/
     authToken: ""
-  splunk:
-    disabled: false
-    host: 0.0.0.0
-    tls:
-      disabled: false
-      requestCert: false
-      rejectUnauthorized: false
-      commonNameRegex: /.*cribl\.io.*/
-      certPath: $CRIBL_HOME/local/cribl/auth/certs/splunk_server.crt
-      privKeyPath: $CRIBL_HOME/local/cribl/auth/certs/splunk_server.key
-      caPath: $CRIBL_HOME/local/cribl/auth/certs/splunk_server.pem
-    ipWhitelistRegex: /.*/
-    staleChannelFlushMs: 10000
-    type: splunk
-    port: 9999
