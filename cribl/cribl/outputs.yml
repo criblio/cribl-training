@@ -5,7 +5,7 @@ outputs:
       - filter: "true"
         output: splunk-metrics
         final: false
-    onBackpressure: drop
+    onBackpressure: block
   splunk-metrics:
     type: splunk
     pipeline: metrics_to_logs
