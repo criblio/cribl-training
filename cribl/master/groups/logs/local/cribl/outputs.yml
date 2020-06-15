@@ -1,4 +1,15 @@
 outputs:
+  default:
+    defaultId: splunk
+    type: default
+  splunk:
+    type: splunk
+    host: splunk
+    port: 9997
+    onBackpressure: block
+    nestedFields: none
+    tls:
+      disabled: true
   statsd:
     type: router
     rules:
