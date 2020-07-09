@@ -3,13 +3,22 @@ outputs:
     defaultId: splunk
     type: default
   splunk:
-    type: splunk
-    host: splunk
-    port: 9997
-    onBackpressure: block
-    nestedFields: none
+    dnsResolvePeriodSec: 60
+    excludeSelf: true
+    loadBalanceStatsPeriodSec: 300
+    indexerDiscovery: false
+    throttleRatePerSec: "0"
     tls:
       disabled: true
+    connectionTimeout: 10000
+    writeTimeout: 60000
+    onBackpressure: block
+    hosts:
+      - port: 9997
+        tls: inherit
+        weight: 1
+        host: splunk
+    type: splunk_lb
   statsd:
     type: router
     rules:
@@ -18,13 +27,20 @@ outputs:
         final: false
     onBackpressure: block
   splunk-metrics:
-    type: splunk
-    pipeline: metrics_to_logs
-    host: splunk
-    port: 9998
-    nestedFields: none
+    dnsResolvePeriodSec: 60
+    excludeSelf: true
+    loadBalanceStatsPeriodSec: 300
+    indexerDiscovery: false
+    throttleRatePerSec: "0"
     tls:
       disabled: true
     connectionTimeout: 5000
     writeTimeout: 10000
     onBackpressure: queue
+    pipeline: metrics_to_logs
+    hosts:
+      - port: 9998
+        tls: inherit
+        weight: 1
+        host: splunk
+    type: splunk_lb
