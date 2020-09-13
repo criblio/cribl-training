@@ -16,6 +16,7 @@ services:
     volumes:
       - ./cribl/cribl:/opt/cribl/local/cribl
       - ./cribl/data:/opt/cribl/data
+      - /var/run/docker.sock:/var/run/docker.sock
   gogen-accesscombined-forwarder:
     build:
       context: universalforwarder
